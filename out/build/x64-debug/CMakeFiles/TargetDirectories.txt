@@ -1,0 +1,3 @@
+C:/Users/joni.helen/source/repos/NetworkingPhysics/out/build/x64-debug/CMakeFiles/NetworkingPhysics.dir
+C:/Users/joni.helen/source/repos/NetworkingPhysics/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/Users/joni.helen/source/repos/NetworkingPhysics/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
