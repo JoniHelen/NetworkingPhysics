@@ -1,8 +1,9 @@
-﻿// NetworkingPhysics.h : Include file for standard system include files,
-// or project specific include files.
+﻿#pragma once
 
-#pragma once
+#define GLFW_INCLUDE_NONE
 
 #include <iostream>
-
-// TODO: Reference additional headers your program requires here.
+#include <box2d/box2d.h>
+#include <glad/gl.h>
+#include <GLFW/glfw3.h>
+#include <linmath.h>
