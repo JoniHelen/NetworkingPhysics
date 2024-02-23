@@ -47,11 +47,35 @@ cmake_ninja_workdir = C$:\Users\joni.helen\source\repos\NetworkingPhysics\out\bu
 #############################################
 # Order-only phony target for NetworkingPhysics
 
-build cmake_object_order_depends_target_NetworkingPhysics: phony || cmake_object_order_depends_target_box2d cmake_object_order_depends_target_glad cmake_object_order_depends_target_glfw
+build cmake_object_order_depends_target_NetworkingPhysics: phony || cmake_object_order_depends_target_box2d cmake_object_order_depends_target_glad cmake_object_order_depends_target_glfw cmake_object_order_depends_target_imgui
 
 build CMakeFiles\NetworkingPhysics.dir\NetworkingPhysics.cpp.obj: CXX_COMPILER__NetworkingPhysics_unscanned_Debug C$:\Users\joni.helen\source\repos\NetworkingPhysics\NetworkingPhysics.cpp || cmake_object_order_depends_target_NetworkingPhysics
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -MDd -ZI
-  INCLUDES = -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glfw\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glad\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\linmath -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\src\..\include
+  INCLUDES = -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glfw\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glad\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\imgui\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\linmath -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\src\..\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\imgui\..
+  OBJECT_DIR = CMakeFiles\NetworkingPhysics.dir
+  OBJECT_FILE_DIR = CMakeFiles\NetworkingPhysics.dir
+  TARGET_COMPILE_PDB = CMakeFiles\NetworkingPhysics.dir\
+  TARGET_PDB = NetworkingPhysics.pdb
+
+build CMakeFiles\NetworkingPhysics.dir\imgui_impl_glfw.cpp.obj: CXX_COMPILER__NetworkingPhysics_unscanned_Debug C$:\Users\joni.helen\source\repos\NetworkingPhysics\imgui_impl_glfw.cpp || cmake_object_order_depends_target_NetworkingPhysics
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -MDd -ZI
+  INCLUDES = -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glfw\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glad\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\imgui\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\linmath -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\src\..\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\imgui\..
+  OBJECT_DIR = CMakeFiles\NetworkingPhysics.dir
+  OBJECT_FILE_DIR = CMakeFiles\NetworkingPhysics.dir
+  TARGET_COMPILE_PDB = CMakeFiles\NetworkingPhysics.dir\
+  TARGET_PDB = NetworkingPhysics.pdb
+
+build CMakeFiles\NetworkingPhysics.dir\imgui_impl_opengl3.cpp.obj: CXX_COMPILER__NetworkingPhysics_unscanned_Debug C$:\Users\joni.helen\source\repos\NetworkingPhysics\imgui_impl_opengl3.cpp || cmake_object_order_depends_target_NetworkingPhysics
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -MDd -ZI
+  INCLUDES = -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glfw\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glad\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\imgui\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\linmath -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\src\..\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\imgui\..
+  OBJECT_DIR = CMakeFiles\NetworkingPhysics.dir
+  OBJECT_FILE_DIR = CMakeFiles\NetworkingPhysics.dir
+  TARGET_COMPILE_PDB = CMakeFiles\NetworkingPhysics.dir\
+  TARGET_PDB = NetworkingPhysics.pdb
+
+build CMakeFiles\NetworkingPhysics.dir\dbgDraw.cpp.obj: CXX_COMPILER__NetworkingPhysics_unscanned_Debug C$:\Users\joni.helen\source\repos\NetworkingPhysics\dbgDraw.cpp || cmake_object_order_depends_target_NetworkingPhysics
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -MDd -ZI
+  INCLUDES = -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glfw\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\glad\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\imgui\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\linmath -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\src\..\include -IC:\Users\joni.helen\source\repos\NetworkingPhysics\out\build\x64-debug\_deps\box2d-src\extern\imgui\..
   OBJECT_DIR = CMakeFiles\NetworkingPhysics.dir
   OBJECT_FILE_DIR = CMakeFiles\NetworkingPhysics.dir
   TARGET_COMPILE_PDB = CMakeFiles\NetworkingPhysics.dir\
@@ -65,10 +89,10 @@ build CMakeFiles\NetworkingPhysics.dir\NetworkingPhysics.cpp.obj: CXX_COMPILER__
 #############################################
 # Link the executable NetworkingPhysics.exe
 
-build NetworkingPhysics.exe: CXX_EXECUTABLE_LINKER__NetworkingPhysics_Debug CMakeFiles\NetworkingPhysics.dir\NetworkingPhysics.cpp.obj | _deps\box2d-build\bin\box2d.lib _deps\box2d-build\bin\glfw.lib _deps\box2d-build\bin\glad.lib || _deps\box2d-build\bin\box2d.lib _deps\box2d-build\bin\glad.lib _deps\box2d-build\bin\glfw.lib
+build NetworkingPhysics.exe: CXX_EXECUTABLE_LINKER__NetworkingPhysics_Debug CMakeFiles\NetworkingPhysics.dir\NetworkingPhysics.cpp.obj CMakeFiles\NetworkingPhysics.dir\imgui_impl_glfw.cpp.obj CMakeFiles\NetworkingPhysics.dir\imgui_impl_opengl3.cpp.obj CMakeFiles\NetworkingPhysics.dir\dbgDraw.cpp.obj | _deps\box2d-build\bin\box2d.lib _deps\box2d-build\bin\glfw.lib _deps\box2d-build\bin\glad.lib _deps\box2d-build\bin\imgui.lib || _deps\box2d-build\bin\box2d.lib _deps\box2d-build\bin\glad.lib _deps\box2d-build\bin\glfw.lib _deps\box2d-build\bin\imgui.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -MDd -ZI
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = _deps\box2d-build\bin\box2d.lib  _deps\box2d-build\bin\glfw.lib  _deps\box2d-build\bin\glad.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = _deps\box2d-build\bin\box2d.lib  _deps\box2d-build\bin\glfw.lib  _deps\box2d-build\bin\glad.lib  _deps\box2d-build\bin\imgui.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\NetworkingPhysics.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

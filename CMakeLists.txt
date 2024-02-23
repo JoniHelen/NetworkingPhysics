@@ -18,17 +18,25 @@ FetchContent_MakeAvailable (box2d)
 
 project ("NetworkingPhysics")
 
-add_executable (NetworkingPhysics "NetworkingPhysics.cpp" "NetworkingPhysics.h")
+add_executable (NetworkingPhysics 
+	"NetworkingPhysics.cpp"
+	"NetworkingPhysics.h"
+	"imgui_impl_glfw.cpp"
+	"imgui_impl_glfw.h"
+	"imgui_impl_opengl3.cpp"
+	"imgui_impl_opengl3.h"
+ "dbgDraw.h" "dbgDraw.cpp")
 
 target_include_directories (NetworkingPhysics 
 	PRIVATE 
 	"${box2d_SOURCE_DIR}/include"
 	"${box2d_SOURCE_DIR}/extern/glfw/include"
 	"${box2d_SOURCE_DIR}/extern/glad/include"
+	"${box2d_SOURCE_DIR}/extern/imgui/include"
 	"linmath"
 )
 
-target_link_libraries (NetworkingPhysics PRIVATE box2d glfw glad)
+target_link_libraries (NetworkingPhysics PRIVATE box2d glfw glad imgui)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET NetworkingPhysics PROPERTY CXX_STANDARD 20)
