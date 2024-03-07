@@ -25,7 +25,7 @@ add_executable (NetworkingPhysics
 	"imgui_impl_glfw.h"
 	"imgui_impl_opengl3.cpp"
 	"imgui_impl_opengl3.h"
- "dbgDraw.h" "dbgDraw.cpp")
+)
 
 target_include_directories (NetworkingPhysics 
 	PRIVATE 

@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/joni.helen/source/repos/NetworkingPhysics
+# Install script for directory: C:/Users/joni.helen/Documents/GitHub/NetworkingPhysics
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Users/joni.helen/source/repos/NetworkingPhysics/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/joni.helen/Documents/GitHub/NetworkingPhysics/out/install/x64-debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/joni.helen/source/repos/NetworkingPhysics/out/build/x64-debug/_deps/box2d-build/cmake_install.cmake")
+  include("C:/Users/joni.helen/Documents/GitHub/NetworkingPhysics/out/build/x64-debug/_deps/box2d-build/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/joni.helen/source/repos/NetworkingPhysics/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/joni.helen/Documents/GitHub/NetworkingPhysics/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

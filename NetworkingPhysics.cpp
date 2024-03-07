@@ -1,7 +1,6 @@
 ﻿#include "NetworkingPhysics.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "dbgDraw.h"
 
 using namespace std;
 
@@ -37,17 +36,81 @@ static const struct Vertex
 	{   0.0f,  1.0f, 1.f, 0.f, 1.f }
 };
 
+constexpr auto COUNT_TRIANGLES = 10;
+
 static const uint32 indices[3] = { 0, 1, 2 };
+static b2Body* walls[4];
+static b2Body* triangles[COUNT_TRIANGLES];
+
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_E && action == GLFW_PRESS);
-		//activate_airship();
 }
 
 void error_callback(int error, const char* description)
 {
 	cerr << "Error: " << description << endl;
+}
+
+void create_world_bounds(const unique_ptr<b2World>& world) {
+	b2BodyDef bodyDef;
+
+	// wall 1
+	bodyDef.position.Set(0, -5);
+	walls[0] = world->CreateBody(&bodyDef);
+
+	// wall 2
+	bodyDef.position.Set(0, 5);
+	walls[1] = world->CreateBody(&bodyDef);
+
+	// wall 3
+	bodyDef.position.Set(5, 0);
+	walls[2] = world->CreateBody(&bodyDef);
+
+	// wall 4
+	bodyDef.position.Set(-5, 0);
+	walls[3] = world->CreateBody(&bodyDef);
+
+	b2PolygonShape polygonShapeV;
+	polygonShapeV.SetAsBox(0.5f, 5);
+
+	b2PolygonShape polygonShapeH;
+	polygonShapeH.SetAsBox(5, 0.5f);
+
+	walls[0]->CreateFixture(&polygonShapeH, 0.0f);
+	walls[1]->CreateFixture(&polygonShapeH, 0.0f);
+	walls[2]->CreateFixture(&polygonShapeV, 0.0f);
+	walls[3]->CreateFixture(&polygonShapeV, 0.0f);
+}
+
+void create_physics_triangles(const unique_ptr<b2World>& world) {
+	b2BodyDef dynamicBodyDef;
+	dynamicBodyDef.type = b2_dynamicBody;
+	dynamicBodyDef.angle = 0;
+	dynamicBodyDef.linearVelocity.Set(0, 15);
+
+	const b2Vec2 triangle[3] = {
+		{ -0.8660254f, -0.5f },
+		{  0.8660254f, -0.5f },
+		{   0.0f,  1.0f }
+	};
+
+	b2PolygonShape dynamicShape;
+	dynamicShape.Set(triangle, 3);
+
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicShape;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.3f;
+	fixtureDef.restitution = 1;
+
+	for (int i = 0; i < COUNT_TRIANGLES; i++) {
+		dynamicBodyDef.position.Set(static_cast<float>((i % 2 - 2) * 2), static_cast<float>(i / 2));
+		
+		triangles[i] = world->CreateBody(&dynamicBodyDef);
+		triangles[i]->CreateFixture(&fixtureDef);
+	}
 }
 
 int main()
@@ -120,67 +183,11 @@ int main()
 	glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
 		sizeof(vertices[0]), (void*)(sizeof(float) * 2));
 
-	float g = 0.0f;
+	unique_ptr<b2World> world = make_unique<b2World>(b2Vec2(0, -9.81f));
 
-	unique_ptr<b2World> world = make_unique<b2World>(b2Vec2(0, -9.81f * g));
+	create_world_bounds(world);
 
-	b2BodyDef bodyDef;
-
-	// wall 1
-	bodyDef.position.Set(0, -5);
-	b2Body* wall1 = world->CreateBody(&bodyDef);
-	
-	// wall 2
-	bodyDef.position.Set(0, 5);
-	b2Body* wall2 = world->CreateBody(&bodyDef);
-
-	// wall 3
-	bodyDef.position.Set(5, 0);
-	b2Body* wall3 = world->CreateBody(&bodyDef);
-
-	// wall 4
-	bodyDef.position.Set(-5, 0);
-	b2Body* wall4 = world->CreateBody(&bodyDef);
-
-	b2PolygonShape polygonShapeV;
-	polygonShapeV.SetAsBox(0.5f, 5);
-
-	b2PolygonShape polygonShapeH;
-	polygonShapeH.SetAsBox(5, 0.5f);
-
-	wall1->CreateFixture(&polygonShapeH, 0.0f);
-	wall2->CreateFixture(&polygonShapeH, 0.0f);
-	wall3->CreateFixture(&polygonShapeV, 0.0f);
-	wall4->CreateFixture(&polygonShapeV, 0.0f);
-
-	b2BodyDef dynamicBodyDef;
-	dynamicBodyDef.type = b2_dynamicBody;
-	dynamicBodyDef.position.Set(0.0f, 0.0f);
-	dynamicBodyDef.angle = 1;
-	dynamicBodyDef.linearVelocity.Set(0, -15);
-	b2Body* dynamicBody = world->CreateBody(&dynamicBodyDef);
-
-	const b2Vec2 triangle[3] = {
-		{ -0.8660254f, -0.5f },
-		{  0.8660254f, -0.5f },
-		{   0.0f,  1.0f }
-	};
-
-	b2PolygonShape dynamicShape;
-	dynamicShape.Set(triangle, 3);
-
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicShape;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-	fixtureDef.restitution = 1;
-
-	dynamicBody->CreateFixture(&fixtureDef);
-
-	//dbgDraw dbg;
-	//dbg.SetFlags(b2Draw::e_shapeBit | b2Draw::e_aabbBit);
-
-	//world->SetDebugDraw(&dbg);
+	create_physics_triangles(world);
 
 	float gravityModifier = 0;
 
@@ -207,7 +214,7 @@ int main()
 
 		float ratio;
 		int width, height;
-		mat4x4 m, v, p, mvp;
+		mat4x4 m, v, p, mv, mvp;
 
 		glfwGetFramebufferSize(window, &width, &height);
 		ratio = width / (float)height;
@@ -217,12 +224,6 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		world->Step(1 / 60.0f, 6, 2);
-
-		// Move triangle
-		mat4x4_identity(m);
-		auto& pos = dynamicBody->GetPosition();
-		mat4x4_translate_in_place(m, pos.x, pos.y, 0);
-		mat4x4_rotate_Z(m, m, dynamicBody->GetAngle());
 
 		// Set camera
 		mat4x4_identity(v);
@@ -234,17 +235,23 @@ int main()
 		// Projection
 		mat4x4_ortho(p, -ratio * zoom, ratio* zoom, -zoom, zoom, 1.f, -1.f);
 
-		// mvp
-		mat4x4_mul(v, v, m);
-		mat4x4_mul(mvp, p, v);
-
 		glUseProgram(program);
 		glBindVertexArray(vertex_array);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-		glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
-		//world->DebugDraw();
+		for (b2Body* triangle : triangles) {
+			mat4x4_identity(m);
+			auto& pos = triangle->GetPosition();
+			mat4x4_translate_in_place(m, pos.x, pos.y, 0);
+			mat4x4_rotate_Z(m, m, triangle->GetAngle());
+
+			mat4x4_mul(mv, v, m);
+			mat4x4_mul(mvp, p, mv);
+
+			glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*)mvp);
+			//glDrawElementsInstanced(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr, COUNT_TRIANGLES);
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+		}
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
