@@ -14,7 +14,13 @@ FetchContent_Declare (
 	GIT_TAG			411acc32eb6d4f2e96fc70ddbdf01fe5f9b16230
 )
 
-FetchContent_MakeAvailable (box2d)
+FetchContent_Declare (
+	asio
+	GIT_REPOSITORY  https://github.com/chriskohlhoff/asio.git
+	GIT_TAG			ed5db1b50136bace796062c1a6eab0df9a74f8fa
+)
+
+FetchContent_MakeAvailable (box2d asio)
 
 project ("NetworkingPhysics")
 
@@ -34,6 +40,7 @@ target_include_directories (NetworkingPhysics
 	"${box2d_SOURCE_DIR}/extern/glad/include"
 	"${box2d_SOURCE_DIR}/extern/imgui/include"
 	"linmath"
+	"${asio_SOURCE_DIR}/asio/include"
 )
 
 target_link_libraries (NetworkingPhysics PRIVATE box2d glfw glad imgui)
