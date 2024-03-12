@@ -33,6 +33,10 @@ add_executable (NetworkingPhysics
 	"imgui_impl_opengl3.h"
 )
 
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set_property(TARGET NetworkingPhysics PROPERTY CXX_STANDARD 20)
+endif()
+
 target_include_directories (NetworkingPhysics 
 	PRIVATE 
 	"${box2d_SOURCE_DIR}/include"
@@ -45,6 +49,6 @@ target_include_directories (NetworkingPhysics
 
 target_link_libraries (NetworkingPhysics PRIVATE box2d glfw glad imgui)
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET NetworkingPhysics PROPERTY CXX_STANDARD 20)
-endif()
+add_custom_command(TARGET NetworkingPhysics POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/shaders ${CMAKE_CURRENT_BINARY_DIR}
+)
