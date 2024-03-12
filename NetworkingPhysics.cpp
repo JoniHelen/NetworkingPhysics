@@ -307,7 +307,7 @@ int main()
 
 		// Set camera
 		mat4x4_identity(v);
-		mat4x4_translate(v, 0, 0, 0);
+		mat4x4_translate_in_place(v, 0, 0, 0);
 		mat4x4_invert(v, v);
 
 		constexpr float zoom = 7;
