@@ -24,7 +24,7 @@ FetchContent_MakeAvailable(box2d asio)
 
 project(NetworkingPhysics)
 
-add_executable(NetworkingPhysics 
+add_executable(NetworkingPhysics
 	src/NetworkingPhysics.cpp
 	include/NetworkingPhysics.h
 	src/imgui_impl_glfw.cpp
@@ -59,4 +59,12 @@ target_link_libraries(NetworkingPhysics PRIVATE box2d glfw glad imgui ws2_32)
 
 add_custom_command(TARGET NetworkingPhysics POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${CMAKE_SOURCE_DIR}/shaders ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_custom_command(TARGET NetworkingPhysics POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/LaunchServer.bat ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_custom_command(TARGET NetworkingPhysics POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/LaunchClient.bat ${CMAKE_CURRENT_BINARY_DIR}
 )

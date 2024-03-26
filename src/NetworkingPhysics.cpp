@@ -63,8 +63,8 @@ namespace NetPhysics {
 
 		// Create triangle objects
 		for (int i = 0; i < COUNT_TRIANGLES; i++) {
-			dynamicBodyDef.linearVelocity.Set(static_cast<float>((i % 10 - 4)), static_cast<float>(i / 10));
-			dynamicBodyDef.position.Set(static_cast<float>((i % 10 - 4)), static_cast<float>(i / 10));
+			dynamicBodyDef.linearVelocity.Set(static_cast<float>((i % 10) - 5), static_cast<float>(i / 10) - 5);
+			dynamicBodyDef.position.Set(static_cast<float>((i % 10) - 5), static_cast<float>(i / 10) - 5);
 
 			Triangles[i] = world->CreateBody(&dynamicBodyDef);
 			Triangles[i]->CreateFixture(&fixtureDef);

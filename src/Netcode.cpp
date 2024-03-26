@@ -16,9 +16,9 @@ namespace NetPhysics {
 		return GetAddrInfo(address, port, &hints, info);
 	}
 
-	int SetSocketBlockingMode(const Socket socket, const bool mode) {
+	int SetSocketBlockingMode(const Socket s, const bool mode) {
 		auto val = mode ? 0ul : 1ul, bytes = 0ul;
-		return WSAIoctl(socket, FIONBIO, &val, sizeof(val), nullptr,
+		return WSAIoctl(s, FIONBIO, &val, sizeof(val), nullptr,
 			0, &bytes, nullptr, nullptr);
 	}
 
@@ -35,7 +35,7 @@ namespace NetPhysics {
 	}
 
 	bool SocketIsValid(Socket s) {
-		return s != WSAEWOULDBLOCK && s != INVALID_SOCKET;
+		return s != INVALID_SOCKET;
 	}
 
 	bool FlagNotSet(const RunningFlag& flag) {
@@ -60,10 +60,13 @@ namespace NetPhysics {
 
 		auto bytesSent = 0ul;
 
-		if (WSASend(client, &dataBuf, 1ul, &bytesSent, 0, nullptr, nullptr) == SOCKET_ERROR)
-		{
-			int err = WSAGetLastError();
-			int k = err + 1;
+		if (WSASend(client, &dataBuf, 1ul, &bytesSent, 0, nullptr, nullptr) == SOCKET_ERROR) {
+			if (int err = WSAGetLastError(); err != WSAEWOULDBLOCK) {
+				std::cerr << "Error on SEND: " << err << "\n";
+				std::cerr << "Aborting connection on socket " << client << "\n";
+				closesocket(client);
+				Clients.erase(std::remove(Clients.begin(), Clients.end(), client));
+			}
 		}
 
 		WSACleanup();
@@ -129,9 +132,6 @@ namespace NetPhysics {
 			if (SocketIsValid(ClientSocket)) {
 				std::cout << "Client connected!\n";
 				Clients.push_back(ClientSocket);
-				/*std::future<int> exitValue = std::async(ClientInterface, ClientSocket);
-				const int eval = exitValue.get();
-				std::cout << "Client exit code: " << eval << "\n";*/
 			}
 		}
 
@@ -178,17 +178,15 @@ namespace NetPhysics {
 		auto flags = 0ul;
 
 		while (FlagNotSet(running)) {
-			/*if (TriDataMutex.try_lock())
-			{
-				
-				TriDataMutex.unlock();
-			}*/
-
-			// TODO: Actually decide what is best practice because rc was socket erroring all the time
-
 			const int rc = WSARecv(ConnectSocket, &recvBuffer, 1, &bytesRecvd, &flags, nullptr, nullptr);
-			if (bytesRecvd > 0 && rc != WSAEWOULDBLOCK && rc != SOCKET_ERROR) {
-				ObjectsReceived.test_and_set();
+			if (bytesRecvd > 0 && rc != SOCKET_ERROR && ObjectsInitialized.test(std::memory_order::relaxed)) {
+				Lock lock(TriDataMutex);
+				for (int i = 0; i < COUNT_TRIANGLES; i++) {
+					const auto& [SpatialData, PhysicsData] = TriData[i];
+					Triangles[i]->SetTransform(b2Vec2(SpatialData[0], SpatialData[1]), SpatialData[2]);
+					Triangles[i]->SetLinearVelocity(b2Vec2(PhysicsData[0], PhysicsData[1]));
+					Triangles[i]->SetAngularVelocity(PhysicsData[2]);
+				}
 			}
 		}
 

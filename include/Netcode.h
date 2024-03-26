@@ -10,7 +10,7 @@ namespace NetPhysics {
 
 	int GetAddressInfo(AddressInfo** info, const wchar_t* address = L"127.0.0.1", const wchar_t* port = L"56789");
 
-	int SetSocketBlockingMode(bool mode);
+	int SetSocketBlockingMode(Socket s, bool mode);
 
 	int BindSocketToAddress(Socket s, const AddressInfo* info);
 

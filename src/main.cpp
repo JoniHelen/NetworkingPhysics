@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 	NetPhysics::CreateWorldBounds(world);
 	NetPhysics::CreatePhysicsTriangles(world);
 
-	NetPhysics::ObjectsInitialized.test_and_set();
+	NetPhysics::ObjectsInitialized.test_and_set(std::memory_order::acquire);
 
 	const auto rate = glfwGetVideoMode(glfwGetPrimaryMonitor())->refreshRate;
 
@@ -78,22 +78,12 @@ int main(int argc, char* argv[]) {
 		glClearColor(clearColor[0], clearColor[1], clearColor[2], 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		if (NetPhysics::ObjectsReceived.test() && !isServer) {
-			//NetPhysics::TriDataMutex.lock();
-
-			for (int i = 0; i < NetPhysics::COUNT_TRIANGLES; i++) {
-				const auto& [SpatialData, PhysicsData] = NetPhysics::TriData[i];
-				NetPhysics::Triangles[i]->SetTransform(b2Vec2(SpatialData[0], SpatialData[1]), SpatialData[2]);
-				NetPhysics::Triangles[i]->SetLinearVelocity(b2Vec2(PhysicsData[0], PhysicsData[1]));
-				NetPhysics::Triangles[i]->SetAngularVelocity(PhysicsData[2]);
-			}
-
-			//NetPhysics::TriDataMutex.unlock();
-			NetPhysics::ObjectsReceived.clear();
+		if (isServer)
+			world->Step(1.0f / static_cast<float>(rate), 20, 10);
+		else if (NetPhysics::TriDataMutex.try_lock()) {
+			world->Step(1.0f / static_cast<float>(rate), 20, 10);
+			NetPhysics::TriDataMutex.unlock();
 		}
-
-		world->Step(1.0f / static_cast<float>(rate), 20, 10);
-			
 
 		if (isServer)
 			NetPhysics::CollectTriangleData();
@@ -135,8 +125,8 @@ int main(int argc, char* argv[]) {
 		glfwSwapBuffers(window);
 	}
 
-	networkRunning.test_and_set(); // Notify listener to stop
-	timerRunning.test_and_set();
+	networkRunning.test_and_set(std::memory_order::acquire);
+	timerRunning.test_and_set(std::memory_order::acquire);
 	std::cout << "Networking thread exited with code: " << networkExitCode.get() << "\n";
 	if (isServer)
 		timer.get();

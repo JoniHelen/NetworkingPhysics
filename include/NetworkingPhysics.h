@@ -24,11 +24,11 @@ namespace NetPhysics {
 
 	// World globals
 
-	constexpr int COUNT_TRIANGLES = 30;
+	constexpr int COUNT_TRIANGLES = 100;
 	inline b2Body* Walls[4u];
 
 	inline std::atomic_flag ObjectsInitialized;
-	inline std::atomic_flag ObjectsReceived;
+
 	inline b2Body* Triangles[COUNT_TRIANGLES];
 	inline mat4x4 TriangleTransforms[COUNT_TRIANGLES];
 
