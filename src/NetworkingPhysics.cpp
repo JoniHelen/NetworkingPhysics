@@ -63,8 +63,8 @@ namespace NetPhysics {
 
 		// Create triangle objects
 		for (int i = 0; i < COUNT_TRIANGLES; i++) {
-			dynamicBodyDef.linearVelocity.Set(static_cast<float>((i % 10) - 5), static_cast<float>(i / 10) - 5);
-			dynamicBodyDef.position.Set(static_cast<float>((i % 10) - 5), static_cast<float>(i / 10) - 5);
+			dynamicBodyDef.linearVelocity.Set(static_cast<float>(i % 10 - 5), static_cast<float>(i / 10 - 5));
+			dynamicBodyDef.position.Set(static_cast<float>(i % 10 - 5), static_cast<float>(i / 10 - 5));
 
 			Triangles[i] = world->CreateBody(&dynamicBodyDef);
 			Triangles[i]->CreateFixture(&fixtureDef);
@@ -73,8 +73,8 @@ namespace NetPhysics {
 
 	void ResetSimulation() {
 		for (int i = 0; i < COUNT_TRIANGLES; i++) {
-			Triangles[i]->SetLinearVelocity(b2Vec2(static_cast<float>((i % 10 - 4)), static_cast<float>(i / 10)));
-			Triangles[i]->SetTransform(b2Vec2(static_cast<float>((i % 10 - 4)), static_cast<float>(i / 10)), 0);
+			Triangles[i]->SetLinearVelocity(b2Vec2(static_cast<float>(i % 10 - 5), static_cast<float>(i / 10 - 5)));
+			Triangles[i]->SetTransform(b2Vec2(static_cast<float>(i % 10 - 5), static_cast<float>(i / 10 - 5)), 0);
 			Triangles[i]->SetAngularVelocity(0);
 		}
 	}

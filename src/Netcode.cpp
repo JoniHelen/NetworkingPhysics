@@ -61,11 +61,11 @@ namespace NetPhysics {
 		auto bytesSent = 0ul;
 
 		if (WSASend(client, &dataBuf, 1ul, &bytesSent, 0, nullptr, nullptr) == SOCKET_ERROR) {
-			if (int err = WSAGetLastError(); err != WSAEWOULDBLOCK) {
+			if (const int err = WSAGetLastError(); err != WSAEWOULDBLOCK) {
 				std::cerr << "Error on SEND: " << err << "\n";
 				std::cerr << "Aborting connection on socket " << client << "\n";
 				closesocket(client);
-				Clients.erase(std::remove(Clients.begin(), Clients.end(), client));
+				Clients.erase(std::ranges::remove(Clients, client).begin()); // UNSAFE WITH CLIENT LISTENER
 			}
 		}
 
@@ -131,7 +131,7 @@ namespace NetPhysics {
 
 			if (SocketIsValid(ClientSocket)) {
 				std::cout << "Client connected!\n";
-				Clients.push_back(ClientSocket);
+				Clients.push_back(ClientSocket); // UNSAFE WITH DATA SENDER
 			}
 		}
 
